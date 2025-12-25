@@ -66,8 +66,8 @@ export function StatsCards({ assignmentStats, habitProgress }: StatsCardsProps) 
         <Card 
           key={stat.label} 
           className={`
-            animate-slide-up border-border/30 overflow-hidden group hover-lift
-            ${stat.alert ? 'ring-2 ring-destructive/30 animate-pulse-soft' : ''}
+            animate-slide-up border-border/30 overflow-hidden group hover-lift card-hover
+            ${stat.alert ? 'ring-2 ring-destructive/30 animate-pulse-slow' : ''}
           `}
           style={{ animationDelay: `${index * 100}ms` }}
         >
@@ -88,8 +88,8 @@ export function StatsCards({ assignmentStats, habitProgress }: StatsCardsProps) 
                     )}
                   </div>
                 </div>
-                <div className={`p-2.5 rounded-xl ${stat.iconBg} ring-4 ${stat.ring} transition-transform group-hover:scale-110 group-hover:rotate-3`}>
-                  <stat.icon className={`w-5 h-5 ${stat.iconColor}`} />
+                <div className={`p-2.5 rounded-xl ${stat.iconBg} ring-4 ${stat.ring} transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 hover-glow`}>
+                  <stat.icon className={`w-5 h-5 ${stat.iconColor} transition-transform duration-300`} />
                 </div>
               </div>
               
@@ -97,7 +97,7 @@ export function StatsCards({ assignmentStats, habitProgress }: StatsCardsProps) 
               {stat.label === 'Completed' && assignmentStats.total > 0 && (
                 <div className="mt-3 h-1.5 bg-muted/50 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-success rounded-full transition-all duration-500 ease-out"
+                    className="h-full bg-success rounded-full animated-progress"
                     style={{ width: `${completionRate}%` }}
                   />
                 </div>

@@ -1,5 +1,5 @@
 import { format, startOfWeek, eachDayOfInterval, addDays, subDays, parseISO } from 'date-fns';
-import { Plus, Trash2, Check, X, Flame, TrendingUp } from 'lucide-react';
+import { Plus, Trash2, Check, X, Flame, TrendingUp, Download } from 'lucide-react';
 import { Habit, HabitStatus } from '@/types/tracker';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useState, useMemo } from 'react';
+import { exportHabitsToCSV } from '@/lib/csvExport';
 
 interface HabitTrackerProps {
   habits: Habit[];
@@ -87,7 +88,7 @@ export function HabitTracker({ habits, onSetHabitStatus, onAddHabit, onDeleteHab
   const longestStreak = Math.max(...Object.values(habitStreaks), 0);
 
   return (
-    <Card className="animate-slide-up border-border/50 overflow-hidden" style={{ animationDelay: '300ms' }}>
+    <Card className="animate-slide-up border-border/50 overflow-hidden card-hover" style={{ animationDelay: '300ms' }}>
       <CardHeader className="pb-3 bg-gradient-to-r from-primary/5 to-accent/5">
         <div className="flex items-center justify-between">
           <div>
@@ -110,13 +111,23 @@ export function HabitTracker({ habits, onSetHabitStatus, onAddHabit, onDeleteHab
               )}
             </div>
           </div>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button size="sm" variant="outline" className="gap-1">
-                <Plus className="w-4 h-4" />
-                Add
-              </Button>
-            </DialogTrigger>
+          <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-8 w-8 p-0"
+              onClick={() => exportHabitsToCSV(habits)}
+              title="Export habits to CSV"
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <Button size="sm" variant="outline" className="gap-1">
+                  <Plus className="w-4 h-4" />
+                  Add
+                </Button>
+              </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Add New Habit</DialogTitle>
@@ -149,6 +160,7 @@ export function HabitTracker({ habits, onSetHabitStatus, onAddHabit, onDeleteHab
               </div>
             </DialogContent>
           </Dialog>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="p-0">
@@ -208,7 +220,7 @@ export function HabitTracker({ habits, onSetHabitStatus, onAddHabit, onDeleteHab
                           {isCompleted ? (
                             <button
                               onClick={() => onSetHabitStatus(habit.id, day, null)}
-                              className="h-8 w-8 rounded-lg flex items-center justify-center transition-all hover:scale-110 mx-auto shadow-sm"
+                              className="h-8 w-8 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-12 mx-auto shadow-sm hover-glow"
                               style={{ backgroundColor: habit.color }}
                               title="Click to clear"
                             >
@@ -223,28 +235,28 @@ export function HabitTracker({ habits, onSetHabitStatus, onAddHabit, onDeleteHab
                               <X className="w-4 h-4 text-white" />
                             </button>
                           ) : (
-                            <div className="flex items-center justify-center gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
+                            <div className="flex items-center justify-center gap-1 opacity-60 group-hover:opacity-100 transition-all duration-300">
                               <button
                                 onClick={() => onSetHabitStatus(habit.id, day, 'completed')}
-                                className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all hover:scale-110 border-2 ${
+                                className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-12 border-2 ${
                                   isToday 
-                                    ? 'border-primary/40 hover:border-primary hover:bg-primary/20' 
+                                    ? 'border-primary/40 hover:border-primary hover:bg-primary/20 hover-glow' 
                                     : 'border-muted-foreground/20 hover:border-primary/50 hover:bg-primary/10'
                                 }`}
                                 title="Mark as done"
                               >
-                                <Check className="w-3.5 h-3.5 text-muted-foreground/50" />
+                                <Check className="w-3.5 h-3.5 text-muted-foreground/50 transition-colors duration-300" />
                               </button>
                               <button
                                 onClick={() => onSetHabitStatus(habit.id, day, 'missed')}
-                                className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all hover:scale-110 border-2 ${
+                                className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-12 border-2 ${
                                   isToday 
                                     ? 'border-primary/40 hover:border-destructive hover:bg-destructive/20' 
                                     : 'border-muted-foreground/20 hover:border-destructive hover:bg-destructive/10'
                                 }`}
                                 title="Mark as not done"
                               >
-                                <X className="w-3.5 h-3.5 text-muted-foreground/50" />
+                                <X className="w-3.5 h-3.5 text-muted-foreground/50 transition-colors duration-300" />
                               </button>
                             </div>
                           )}

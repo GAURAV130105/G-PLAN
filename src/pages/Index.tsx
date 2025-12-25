@@ -10,6 +10,8 @@ import { useStudySessions } from '@/hooks/useStudySessions';
 import { useStudyGoals } from '@/hooks/useStudyGoals';
 import { useMoodEntries } from '@/hooks/useMoodEntries';
 import { useBudgets, useExpenseStats } from '@/hooks/useBudgets';
+import { useNotifications } from '@/hooks/useNotifications';
+import { useGoals } from '@/hooks/useGoals';
 import { StatsCards } from '@/components/dashboard/StatsCards';
 import { AssignmentTable } from '@/components/dashboard/AssignmentTable';
 import { HabitTracker } from '@/components/dashboard/HabitTracker';
@@ -21,6 +23,7 @@ import { AssignmentPieChart } from '@/components/dashboard/AssignmentPieChart';
 import { MoodTracker } from '@/components/dashboard/MoodTracker';
 import { MoodAnalytics } from '@/components/dashboard/MoodAnalytics';
 import { CalendarHistoryView } from '@/components/dashboard/CalendarHistoryView';
+import { GoalsTracker } from '@/components/dashboard/GoalsTracker';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 
@@ -34,10 +37,21 @@ const Index = () => {
   const { habits, addHabit, setHabitStatus, deleteHabit, getWeeklyStats, getTodayProgress, loading: habitsLoading } = useHabits();
   const { expenses, addExpense, deleteExpense, getTotalByCategory, getMonthlyTotal, loading: expensesLoading } = useExpenses();
   const { sessions, addSession, deleteSession, getTodayTotal, getWeeklyStats: getStudyWeeklyStats, getSubjectBreakdown, loading: sessionsLoading } = useStudySessions();
-  const { goals, updateGoals, updateStreak, loading: goalsLoading } = useStudyGoals();
+  const { goals: studyGoals, updateGoals, updateStreak, loading: goalsLoading } = useStudyGoals();
   const { setMood, getMoodForDate, getNotesForDate, getWeeklyAverage, getMonthlyAverage, getLast30DaysStats, loading: moodLoading } = useMoodEntries();
   const { budget, updateBudget, loading: budgetLoading } = useBudgets();
   const { getWeeklyTotal } = useExpenseStats(expenses);
+  const { goals, addGoal, updateGoal, deleteGoal, loading: customGoalsLoading } = useGoals();
+
+  // Enable notifications
+  useNotifications(
+    getMonthlyTotal(),
+    budget?.monthlyBudget || null,
+    getWeeklyTotal(),
+    budget?.weeklyBudget || null,
+    habits,
+    true
+  );
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -76,7 +90,7 @@ const Index = () => {
     return null;
   }
 
-  const isLoading = assignmentsLoading || habitsLoading || expensesLoading || sessionsLoading || goalsLoading || moodLoading || budgetLoading;
+  const isLoading = assignmentsLoading || habitsLoading || expensesLoading || sessionsLoading || goalsLoading || moodLoading || budgetLoading || customGoalsLoading;
   const assignmentStats = getStats();
   const habitProgress = getTodayProgress();
   const weeklyStats = getWeeklyStats();
@@ -193,7 +207,7 @@ const Index = () => {
                 todayTotal={getTodayTotal()}
                 weeklyStats={getStudyWeeklyStats()}
                 subjectBreakdown={getSubjectBreakdown()}
-                goals={goals}
+                goals={studyGoals}
                 onUpdateGoals={updateGoals}
                 onUpdateStreak={updateStreak}
               />
@@ -219,6 +233,14 @@ const Index = () => {
               weeklyAverage={getWeeklyAverage()}
               monthlyAverage={getMonthlyAverage()}
               last30DaysStats={getLast30DaysStats()}
+            />
+
+            {/* Goals Tracker */}
+            <GoalsTracker
+              goals={goals}
+              onAddGoal={addGoal}
+              onUpdateGoal={updateGoal}
+              onDeleteGoal={deleteGoal}
             />
           </>
         )}

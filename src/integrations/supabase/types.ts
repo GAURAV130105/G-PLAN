@@ -229,6 +229,57 @@ export type Database = {
         }
         Relationships: []
       }
+      goals: {
+        Row: {
+          category: string
+          completed_milestones: Json | null
+          created_at: string
+          current_value: number
+          description: string | null
+          id: string
+          milestones: Json | null
+          status: string
+          target_date: string | null
+          target_value: number
+          title: string
+          unit: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          completed_milestones?: Json | null
+          created_at?: string
+          current_value?: number
+          description?: string | null
+          id?: string
+          milestones?: Json | null
+          status?: string
+          target_date?: string | null
+          target_value: number
+          title: string
+          unit?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          completed_milestones?: Json | null
+          created_at?: string
+          current_value?: number
+          description?: string | null
+          id?: string
+          milestones?: Json | null
+          status?: string
+          target_date?: string | null
+          target_value?: number
+          title?: string
+          unit?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       study_goals: {
         Row: {
           created_at: string
