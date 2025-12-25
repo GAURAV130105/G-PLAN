@@ -229,6 +229,7 @@ export type Database = {
         }
         Relationships: []
       }
+<<<<<<< HEAD
       goals: {
         Row: {
           category: string
@@ -280,6 +281,8 @@ export type Database = {
         }
         Relationships: []
       }
+=======
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
       study_goals: {
         Row: {
           created_at: string

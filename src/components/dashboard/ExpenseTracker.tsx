@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+<<<<<<< HEAD
 import { Plus, Trash2, DollarSign, TrendingDown, TrendingUp, Target, Settings, Download } from 'lucide-react';
+=======
+import { Plus, Trash2, DollarSign, TrendingDown, TrendingUp, Target, Settings } from 'lucide-react';
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,7 +21,10 @@ import {
 } from '@/components/ui/dialog';
 import { Expense, ExpenseCategory } from '@/types/tracker';
 import { format } from 'date-fns';
+<<<<<<< HEAD
 import { exportExpensesToCSV } from '@/lib/csvExport';
+=======
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 interface ExpenseTrackerProps {
   expenses: Expense[];
@@ -104,7 +111,11 @@ export function ExpenseTracker({
   };
 
   return (
+<<<<<<< HEAD
     <Card className="animate-slide-up border-border/50 overflow-hidden card-hover" style={{ animationDelay: '500ms' }}>
+=======
+    <Card className="animate-slide-up border-border/50 overflow-hidden" style={{ animationDelay: '500ms' }}>
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
       <CardHeader className="pb-3 bg-gradient-to-r from-accent/5 to-primary/5">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -112,6 +123,7 @@ export function ExpenseTracker({
             Budget & Expenses
           </CardTitle>
           <div className="flex items-center gap-2">
+<<<<<<< HEAD
             <Button
               size="sm"
               variant="ghost"
@@ -121,6 +133,8 @@ export function ExpenseTracker({
             >
               <Download className="h-4 w-4" />
             </Button>
+=======
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
             <Dialog open={budgetDialogOpen} onOpenChange={setBudgetDialogOpen}>
               <DialogTrigger asChild>
                 <Button size="sm" variant="ghost" className="h-8 w-8 p-0">

@@ -15,7 +15,11 @@ export function ProgressChart({ weeklyStats }: ProgressChartProps) {
   const today = new Date().toISOString().split('T')[0];
 
   return (
+<<<<<<< HEAD
     <Card className="animate-slide-up border-border/50 card-hover" style={{ animationDelay: '400ms' }}>
+=======
+    <Card className="animate-slide-up border-border/50" style={{ animationDelay: '400ms' }}>
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-warning" />

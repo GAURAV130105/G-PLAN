@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # G-PLAN - Productivity & Life Tracker Dashboard
 
 <div align="center">
@@ -14,10 +15,16 @@ A modern, comprehensive productivity application for tracking assignments, expen
 </div>
 
 ---
+=======
+# G-PLAN - Work Tracker Dashboard
+
+A modern, comprehensive productivity application for tracking assignments, expenses, habits, study sessions, and personal well-being. Built with React, TypeScript, and Supabase.
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ## ✨ Features
 
 ### 📊 Dashboard Overview
+<<<<<<< HEAD
 - **Real-time Statistics**: Live updates of productivity metrics with animated cards
 - **Progress Visualization**: Interactive charts and graphs for performance tracking
 - **Quick Actions**: Easy access to frequently used features
@@ -51,11 +58,35 @@ A modern, comprehensive productivity application for tracking assignments, expen
 - **Progress History**: View habit completion over time
 - **Habit Reminders**: Evening notifications for incomplete habits ⏰ **NEW**
 - **CSV Export**: Download habit data as CSV files 📥 **NEW**
+=======
+- **Real-time Statistics**: Live updates of productivity metrics
+- **Progress Visualization**: Charts and graphs for performance tracking
+- **Quick Actions**: Easy access to frequently used features
+
+### ✅ Assignment Management
+- **Task Creation**: Add assignments with deadlines and priorities
+- **Status Tracking**: Monitor progress with completion status
+- **Priority Levels**: Organize tasks by importance
+- **Due Date Alerts**: Never miss important deadlines
+
+### 💰 Expense Tracking
+- **Budget Management**: Set and monitor monthly budgets
+- **Category Organization**: Track expenses by category
+- **Spending Analytics**: Visual breakdown of spending patterns
+- **Financial Goals**: Set and track savings objectives
+
+### 🎯 Habit Tracking
+- **Daily Routines**: Track daily habits and routines
+- **Streak Counters**: Monitor consistency with streak tracking
+- **Progress History**: View habit completion over time
+- **Customizable Goals**: Set personal habit targets
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ### 📚 Study Session Management
 - **Session Logging**: Record study time and subjects
 - **Goal Setting**: Set weekly/monthly study targets
 - **Subject Breakdown**: Analyze time spent per subject
+<<<<<<< HEAD
 - **Progress Tracking**: Monitor academic progress with streaks
 - **Weekly Statistics**: View study patterns over time
 
@@ -91,13 +122,32 @@ A modern, comprehensive productivity application for tracking assignments, expen
 - **Session Management**: Automatic token refresh and persistence
 
 ---
+=======
+- **Progress Tracking**: Monitor academic progress
+
+### 😊 Mood & Wellness Tracking
+- **Daily Mood Logging**: Track emotional well-being
+- **Mood Analytics**: View mood patterns over time
+- **Notes & Reflections**: Add personal notes and insights
+- **Wellness Insights**: Understand emotional trends
+
+### 🔐 User Authentication
+- **Secure Login**: Supabase-powered authentication
+- **User Profiles**: Personalized dashboard experience
+- **Data Privacy**: Secure cloud-based data storage
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+<<<<<<< HEAD
 - **Node.js** (v16 or higher) - [Download](https://nodejs.org/)
 - **npm** or **yarn** package manager
 - **Supabase Account** - [Sign up for free](https://supabase.com/)
+=======
+- Node.js (v16 or higher)
+- npm or yarn package manager
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ### Installation
 
@@ -111,6 +161,7 @@ A modern, comprehensive productivity application for tracking assignments, expen
    npm install
    ```
 
+<<<<<<< HEAD
 3. **Set up Supabase**:
    - Create a `.env` file in the root directory
    - Add your Supabase credentials (see [Supabase Setup Guide](./SUPABASE_SETUP.md)):
@@ -125,10 +176,21 @@ A modern, comprehensive productivity application for tracking assignments, expen
    - Make sure to run `20251217000000_goals_system.sql` for goals feature
 
 5. **Start the development server**:
+=======
+3. **Configure environment variables**:
+   Create a `.env` file in the root directory:
+   ```env
+   VITE_SUPABASE_URL=https://your_supabase_project_url
+   VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
+   ```
+
+4. **Start the development server**:
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
    ```bash
    npm run dev
    ```
 
+<<<<<<< HEAD
 6. **Open your browser**:
    Navigate to `http://localhost:5173` (or the port shown in terminal)
 
@@ -140,31 +202,49 @@ For comprehensive setup instructions, see:
 - **[QUICK_FIX_GOALS_TABLE.md](./QUICK_FIX_GOALS_TABLE.md)** - Quick fix for goals table
 
 ---
+=======
+5. **Open your browser**:
+   Navigate to `http://localhost:8080`
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ## 🛠️ Tech Stack
 
 ### Frontend
 - **React 18** - Modern React with hooks and concurrent features
+<<<<<<< HEAD
 - **TypeScript 5.8** - Type-safe JavaScript for better development experience
 - **Vite 7** - Fast build tool and development server
 - **Tailwind CSS 3.4** - Utility-first CSS framework
 - **shadcn/ui** - Beautiful, accessible UI components (50+ components)
 - **Radix UI** - Unstyled, accessible UI primitives
+=======
+- **TypeScript** - Type-safe JavaScript for better development experience
+- **Vite** - Fast build tool and development server
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - Beautiful, accessible UI components
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ### Backend & Database
 - **Supabase** - Open-source Firebase alternative
   - PostgreSQL database
   - Real-time subscriptions
   - Authentication
+<<<<<<< HEAD
   - File storage (avatars)
   - Row Level Security (RLS)
 
 ### State Management & Data
+=======
+  - File storage
+
+### State Management
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 - **React Query (TanStack Query)** - Powerful data synchronization
 - **React Hook Form** - Performant forms with easy validation
 - **Zod** - TypeScript-first schema validation
 
 ### UI Components & Libraries
+<<<<<<< HEAD
 - **Lucide React** - Beautiful & consistent icon library
 - **Recharts** - Composable charting library
 - **Date-fns** - Modern JavaScript date utility library
@@ -173,6 +253,13 @@ For comprehensive setup instructions, see:
 - **next-themes** - Theme management
 
 ---
+=======
+- **Radix UI** - Unstyled, accessible UI primitives
+- **Lucide React** - Beautiful & consistent icon library
+- **Recharts** - Composable charting library
+- **Date-fns** - Modern JavaScript date utility library
+- **React Router** - Declarative routing for React
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ## 📁 Project Structure
 
@@ -184,25 +271,38 @@ GS-PLAN/excel-task-forge-main/
 │   └── robots.txt
 ├── src/
 │   ├── components/
+<<<<<<< HEAD
 │   │   ├── dashboard/              # Main dashboard components
+=======
+│   │   ├── dashboard/          # Main dashboard components
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 │   │   │   ├── AddAssignmentDialog.tsx
 │   │   │   ├── AssignmentPieChart.tsx
 │   │   │   ├── AssignmentTable.tsx
 │   │   │   ├── CalendarHistoryView.tsx
 │   │   │   ├── ExpenseTracker.tsx
+<<<<<<< HEAD
 │   │   │   ├── GoalsTracker.tsx        ⭐ NEW
+=======
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 │   │   │   ├── HabitTracker.tsx
 │   │   │   ├── MoodAnalytics.tsx
 │   │   │   ├── MoodTracker.tsx
 │   │   │   ├── ProgressChart.tsx
 │   │   │   ├── StatsCards.tsx
 │   │   │   └── StudyTracker.tsx
+<<<<<<< HEAD
 │   │   └── ui/                     # Reusable UI components (50+)
 │   ├── hooks/                      # Custom React hooks
+=======
+│   │   └── ui/                 # Reusable UI components (50+ components)
+│   ├── hooks/                  # Custom React hooks
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 │   │   ├── useAssignments.ts
 │   │   ├── useAuth.ts
 │   │   ├── useBudgets.ts
 │   │   ├── useExpenses.ts
+<<<<<<< HEAD
 │   │   ├── useGoals.ts             ⭐ NEW
 │   │   ├── useHabits.ts
 │   │   ├── useMoodEntries.ts
@@ -274,6 +374,51 @@ The application uses Supabase PostgreSQL with the following tables:
 - **Triggers**: Automatic timestamp updates on `updated_at` columns
 
 ---
+=======
+│   │   ├── useHabits.ts
+│   │   ├── useMoodEntries.ts
+│   │   ├── useStudyGoals.ts
+│   │   └── useStudySessions.ts
+│   ├── integrations/
+│   │   └── supabase/           # Supabase client and types
+│   ├── lib/
+│   │   └── utils.ts            # Utility functions
+│   ├── pages/                  # Route components
+│   │   ├── Auth.tsx
+│   │   ├── Index.tsx
+│   │   └── NotFound.tsx
+│   ├── types/                  # TypeScript type definitions
+│   ├── App.tsx                 # Main application component
+│   ├── main.tsx                # Application entry point
+│   └── index.css               # Global styles
+├── supabase/
+│   ├── config.toml             # Supabase project configuration
+│   └── migrations/             # Database schema migrations
+├── package.json                # Dependencies and scripts
+├── tailwind.config.ts          # Tailwind CSS configuration
+├── vite.config.ts              # Vite configuration
+└── README.md                   # This file
+```
+
+## 🗄️ Database Schema
+
+The application uses Supabase with the following main tables:
+
+### Core Tables
+- **profiles** - User profile information
+- **assignments** - Task and assignment tracking
+- **habits** - Habit tracking data
+- **expenses** - Expense and budget tracking
+- **study_sessions** - Study time logging
+- **study_goals** - Academic goal setting
+- **mood_entries** - Mood and wellness tracking
+
+### Relationships
+- All tables are linked to user profiles via `user_id`
+- Assignments include priority levels and completion status
+- Expenses are categorized and linked to budgets
+- Study sessions track time by subject and date
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ## 🎨 UI/UX Design
 
@@ -285,6 +430,7 @@ The application uses Supabase PostgreSQL with the following tables:
 
 ### Theme System
 - **Light/Dark Mode**: Automatic system preference detection
+<<<<<<< HEAD
 - **Manual Toggle**: Easy theme switching via header button
 - **Consistent Colors**: Carefully chosen color palette with CSS variables
 - **Smooth Transitions**: Theme switching with smooth animations
@@ -303,6 +449,15 @@ The application uses Supabase PostgreSQL with the following tables:
 - **Custom Components**: Dashboard-specific components with animations
 
 ---
+=======
+- **Customizable**: Easy theme switching
+- **Consistent Colors**: Carefully chosen color palette
+
+### Component Library
+- **shadcn/ui**: 50+ pre-built components
+- **Radix Primitives**: Accessible, unstyled UI primitives
+- **Tailwind CSS**: Utility-first styling approach
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ## 🔧 Development
 
@@ -310,6 +465,7 @@ The application uses Supabase PostgreSQL with the following tables:
 
 ```bash
 # Development
+<<<<<<< HEAD
 npm run dev          # Start development server with hot reload
 npm run build        # Build for production
 npm run preview      # Preview production build locally
@@ -345,6 +501,27 @@ supabase db push
 Or manually run each SQL file from `supabase/migrations/` in chronological order.
 
 See [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) for detailed instructions.
+=======
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+
+# Code Quality
+npm run lint         # Run ESLint
+```
+
+### Environment Setup
+
+1. **Supabase Configuration**:
+   - Create a new Supabase project
+   - Copy the project URL and anon key to `.env`
+   - Run database migrations: `supabase db push`
+
+2. **Development Environment**:
+   - Ensure Node.js v16+ is installed
+   - Install dependencies: `npm install`
+   - Start development server: `npm run dev`
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ### Code Quality
 
@@ -352,21 +529,32 @@ The project maintains high code quality standards:
 
 - **TypeScript**: Full type safety and IntelliSense support
 - **ESLint**: Code linting and formatting consistency
+<<<<<<< HEAD
 - **Type Safety**: Generated Supabase types for database interactions
 - **Component Structure**: Well-organized, reusable components
 
 ---
+=======
+- **Prettier**: Automated code formatting
+- **Husky**: Git hooks for quality checks
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ## 🚀 Deployment
 
 ### Build for Production
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 ```bash
 npm run build
 ```
 
+<<<<<<< HEAD
 This creates an optimized production build in the `dist` folder.
 
+=======
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 ### Deploy Options
 
 1. **Vercel** (Recommended):
@@ -374,6 +562,7 @@ This creates an optimized production build in the `dist` folder.
    npm install -g vercel
    vercel --prod
    ```
+<<<<<<< HEAD
    - Automatic deployments from Git
    - Environment variables configuration in dashboard
 
@@ -395,18 +584,38 @@ Remember to add your Supabase credentials as environment variables in your hosti
 - `VITE_SUPABASE_PUBLISHABLE_KEY`
 
 ---
+=======
+
+2. **Netlify**:
+   - Connect your repository
+   - Set build command: `npm run build`
+   - Set publish directory: `dist`
+
+3. **Manual Deployment**:
+   - Upload the `dist` folder to any static hosting service
+   - Ensure environment variables are configured
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ## 🔐 Authentication & Security
 
 ### Supabase Auth Features
+<<<<<<< HEAD
 - **Email/Password Authentication**: Secure sign up and sign in
 - **Session Management**: Automatic token refresh and persistence
 - **Password Reset**: Built-in password recovery (via Supabase)
 - **Social Login**: Can be enabled via Supabase dashboard (Google, GitHub, etc.)
+=======
+- **Email/Password Authentication**
+- **Social Login** (Google, GitHub, etc.)
+- **Password Reset**
+- **Session Management**
+- **Row Level Security (RLS)**
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ### Security Best Practices
 - **Environment Variables**: Sensitive data stored securely
 - **HTTPS Only**: All communications encrypted
+<<<<<<< HEAD
 - **Row Level Security (RLS)**: Database-level security policies
 - **Input Validation**: Type-safe forms with TypeScript and Zod
 - **XSS Protection**: React's built-in XSS protection
@@ -419,10 +628,15 @@ Remember to add your Supabase credentials as environment variables in your hosti
 - **No Data Sharing**: User data is never shared between accounts
 
 ---
+=======
+- **CSRF Protection**: Built-in Supabase security
+- **Input Validation**: Zod schema validation
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ## 📊 Data Management
 
 ### State Management Strategy
+<<<<<<< HEAD
 - **Server State**: React Query for API data synchronization
 - **Local State**: React hooks (useState, useReducer) for UI state
 - **Persistent State**: Supabase for long-term data storage
@@ -544,11 +758,44 @@ Contributions are welcome! Please follow these steps:
 4. **Test thoroughly**
 5. **Commit your changes**: `git commit -m 'Add amazing feature'`
 6. **Push to branch**: `git push origin feature/amazing-feature`
+=======
+- **Server State**: React Query for API data
+- **Local State**: React hooks for UI state
+- **Persistent State**: Supabase for long-term storage
+
+### Real-time Updates
+- **Supabase Subscriptions**: Live data synchronization
+- **Optimistic Updates**: Immediate UI feedback
+- **Error Handling**: Comprehensive error boundaries
+
+## 🧪 Testing
+
+### Testing Strategy
+- **Unit Tests**: Component and utility function testing
+- **Integration Tests**: API and database interactions
+- **E2E Tests**: Full user workflow testing
+
+### Testing Tools
+- **Vitest**: Fast unit testing framework
+- **React Testing Library**: Component testing utilities
+- **Playwright**: End-to-end testing
+
+## 🤝 Contributing
+
+### Development Workflow
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/new-feature`
+3. **Make your changes**
+4. **Run tests**: `npm run test`
+5. **Commit your changes**: `git commit -m 'Add new feature'`
+6. **Push to branch**: `git push origin feature/new-feature`
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 7. **Open a Pull Request**
 
 ### Code Standards
 - Follow TypeScript best practices
 - Use meaningful commit messages
+<<<<<<< HEAD
 - Write clean, readable code
 - Add comments for complex logic
 - Update documentation as needed
@@ -570,11 +817,60 @@ Contributions are welcome! Please follow these steps:
 - **Efficient Re-renders**: React optimization with proper hooks usage
 
 ---
+=======
+- Write tests for new features
+- Update documentation as needed
+
+## 📈 Performance
+
+### Optimization Features
+- **Code Splitting**: Lazy loading of routes and components
+- **Image Optimization**: Next.js-like image handling
+- **Bundle Analysis**: Webpack bundle analyzer integration
+- **Caching**: Intelligent caching strategies
+
+### Performance Metrics
+- **Lighthouse Score**: 90+ on all categories
+- **Bundle Size**: Optimized for fast loading
+- **Runtime Performance**: Smooth 60fps animations
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Authentication Problems**:
+- Check Supabase credentials in `.env`
+- Verify RLS policies are correctly configured
+- Clear browser storage and try again
+
+**Build Errors**:
+- Clear node_modules: `rm -rf node_modules && npm install`
+- Check TypeScript errors: `npm run type-check`
+- Verify all dependencies are installed
+
+**Performance Issues**:
+- Enable production build optimizations
+- Check network tab for large assets
+- Optimize images and bundle size
+
+## 📚 Resources
+
+### Documentation
+- [React Documentation](https://react.dev/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [Supabase Documentation](https://supabase.com/docs)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+
+### Community
+- [React Discord](https://discord.gg/react)
+- [Supabase Discord](https://discord.gg/supabase)
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+<<<<<<< HEAD
 ---
 
 ## 🙏 Acknowledgments
@@ -595,3 +891,15 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 [⬆ Back to Top](#g-plan---productivity--life-tracker-dashboard)
 
 </div>
+=======
+## 🙏 Acknowledgments
+
+- **shadcn/ui** for the beautiful component library
+- **Supabase** for the amazing backend-as-a-service platform
+- **Radix UI** for accessible UI primitives
+- **Tailwind CSS** for the utility-first CSS framework
+
+---
+
+**Built with ❤️ for productivity and personal growth**
+>>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
