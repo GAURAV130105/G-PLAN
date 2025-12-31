@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-<<<<<<< HEAD
-import { Plus, Trash2, DollarSign, TrendingDown, TrendingUp, Target, Settings, Download } from 'lucide-react';
-=======
-import { Plus, Trash2, DollarSign, TrendingDown, TrendingUp, Target, Settings } from 'lucide-react';
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
+import { Plus, Trash2, PiggyBank, TrendingDown, TrendingUp, Target, Download } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,10 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Expense, ExpenseCategory } from '@/types/tracker';
 import { format } from 'date-fns';
-<<<<<<< HEAD
 import { exportExpensesToCSV } from '@/lib/csvExport';
-=======
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
 interface ExpenseTrackerProps {
   expenses: Expense[];
@@ -33,8 +26,8 @@ interface ExpenseTrackerProps {
   categoryData: { name: string; value: number; category: ExpenseCategory }[];
   monthlyTotal: number;
   weeklyTotal: number;
-  budget: { monthlyBudget: number; weeklyBudget: number } | null;
-  onUpdateBudget: (monthly: number, weekly: number) => void;
+  budget: { monthlyBudget: number; weeklyBudget: number, monthlySavingsGoal: number } | null;
+  onUpdateBudget: (monthly: number, weekly: number, savings: number) => void;
 }
 
 const CATEGORY_COLORS: Record<ExpenseCategory, string> = {
@@ -72,6 +65,8 @@ export function ExpenseTracker({
   const [budgetDialogOpen, setBudgetDialogOpen] = useState(false);
   const [monthlyBudgetInput, setMonthlyBudgetInput] = useState(budget?.monthlyBudget?.toString() || '');
   const [weeklyBudgetInput, setWeeklyBudgetInput] = useState(budget?.weeklyBudget?.toString() || '');
+  const [monthlySavingsInput, setMonthlySavingsInput] = useState(budget?.monthlySavingsGoal?.toString() || '');
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,7 +88,8 @@ export function ExpenseTracker({
   const handleSaveBudget = () => {
     const monthly = parseFloat(monthlyBudgetInput) || 0;
     const weekly = parseFloat(weeklyBudgetInput) || 0;
-    onUpdateBudget(monthly, weekly);
+    const savings = parseFloat(monthlySavingsInput) || 0;
+    onUpdateBudget(monthly, weekly, savings);
     setBudgetDialogOpen(false);
   };
 
@@ -104,6 +100,9 @@ export function ExpenseTracker({
   const monthlyRemaining = budget?.monthlyBudget ? budget.monthlyBudget - monthlyTotal : 0;
   const weeklyRemaining = budget?.weeklyBudget ? budget.weeklyBudget - weeklyTotal : 0;
 
+  const savedThisMonth = budget?.monthlyBudget ? Math.max(0, budget.monthlyBudget - monthlyTotal) : 0;
+  const savingsProgress = budget?.monthlySavingsGoal ? (savedThisMonth / budget.monthlySavingsGoal) * 100 : 0;
+
   const getProgressColor = (progress: number) => {
     if (progress >= 100) return 'bg-destructive';
     if (progress >= 80) return 'bg-warning';
@@ -111,11 +110,7 @@ export function ExpenseTracker({
   };
 
   return (
-<<<<<<< HEAD
     <Card className="animate-slide-up border-border/50 overflow-hidden card-hover" style={{ animationDelay: '500ms' }}>
-=======
-    <Card className="animate-slide-up border-border/50 overflow-hidden" style={{ animationDelay: '500ms' }}>
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
       <CardHeader className="pb-3 bg-gradient-to-r from-accent/5 to-primary/5">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -123,7 +118,6 @@ export function ExpenseTracker({
             Budget & Expenses
           </CardTitle>
           <div className="flex items-center gap-2">
-<<<<<<< HEAD
             <Button
               size="sm"
               variant="ghost"
@@ -133,8 +127,6 @@ export function ExpenseTracker({
             >
               <Download className="h-4 w-4" />
             </Button>
-=======
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
             <Dialog open={budgetDialogOpen} onOpenChange={setBudgetDialogOpen}>
               <DialogTrigger asChild>
                 <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
@@ -143,29 +135,38 @@ export function ExpenseTracker({
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Set Budget Goals</DialogTitle>
+                  <DialogTitle>Set Budget & Savings Goals</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 pt-4">
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Monthly Budget ($)</label>
+                    <label className="text-sm font-medium mb-2 block">Monthly Budget (₹)</label>
                     <Input
                       type="number"
-                      placeholder="e.g., 1000"
+                      placeholder="e.g., 50000"
                       value={monthlyBudgetInput}
                       onChange={(e) => setMonthlyBudgetInput(e.target.value)}
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Weekly Budget ($)</label>
+                    <label className="text-sm font-medium mb-2 block">Weekly Budget (₹)</label>
                     <Input
                       type="number"
-                      placeholder="e.g., 250"
+                      placeholder="e.g., 12500"
                       value={weeklyBudgetInput}
                       onChange={(e) => setWeeklyBudgetInput(e.target.value)}
                     />
                   </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Monthly Savings Goal (₹)</label>
+                    <Input
+                      type="number"
+                      placeholder="e.g., 10000"
+                      value={monthlySavingsInput}
+                      onChange={(e) => setMonthlySavingsInput(e.target.value)}
+                    />
+                  </div>
                   <Button onClick={handleSaveBudget} className="w-full">
-                    Save Budget
+                    Save Goals
                   </Button>
                 </div>
               </DialogContent>
@@ -193,8 +194,8 @@ export function ExpenseTracker({
             <div className="flex gap-2">
               <Input
                 type="number"
-                step="0.01"
-                placeholder="Amount"
+                step="1"
+                placeholder="Amount (₹)"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 className="h-9 flex-1"
@@ -219,9 +220,10 @@ export function ExpenseTracker({
         )}
 
         <Tabs defaultValue="monthly" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-4">
+          <TabsList className="grid w-full grid-cols-3 mb-4">
             <TabsTrigger value="monthly" className="text-xs">Monthly</TabsTrigger>
             <TabsTrigger value="weekly" className="text-xs">Weekly</TabsTrigger>
+            <TabsTrigger value="savings" className="text-xs">Savings</TabsTrigger>
           </TabsList>
           
           <TabsContent value="monthly" className="space-y-4">
@@ -247,7 +249,7 @@ export function ExpenseTracker({
                         ))}
                       </Pie>
                       <Tooltip
-                        formatter={(value: number) => [`$${value.toFixed(2)}`, '']}
+                        formatter={(value: number) => [`₹${value.toFixed(2)}`, '']}
                         contentStyle={{
                           background: 'hsl(var(--card))',
                           border: '1px solid hsl(var(--border))',
@@ -264,21 +266,20 @@ export function ExpenseTracker({
               </div>
               <div className="flex-1 space-y-2">
                 <div className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5 text-accent" />
-                  <span className="text-2xl font-bold font-mono">${monthlyTotal.toFixed(2)}</span>
+                  <span className="text-2xl font-bold font-mono">₹{monthlyTotal.toFixed(2)}</span>
                 </div>
                 {budget?.monthlyBudget ? (
                   <div className="space-y-1">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-muted-foreground">of ${budget.monthlyBudget}</span>
+                      <span className="text-muted-foreground">of ₹{budget.monthlyBudget}</span>
                       <Badge 
                         variant={monthlyRemaining >= 0 ? "secondary" : "destructive"}
                         className="text-xs"
                       >
                         {monthlyRemaining >= 0 ? (
-                          <><TrendingDown className="w-3 h-3 mr-1" /> ${monthlyRemaining.toFixed(0)} left</>
+                          <><TrendingDown className="w-3 h-3 mr-1" /> ₹{monthlyRemaining.toFixed(0)} left</>
                         ) : (
-                          <><TrendingUp className="w-3 h-3 mr-1" /> ${Math.abs(monthlyRemaining).toFixed(0)} over</>
+                          <><TrendingUp className="w-3 h-3 mr-1" /> ₹{Math.abs(monthlyRemaining).toFixed(0)} over</>
                         )}
                       </Badge>
                     </div>
@@ -295,40 +296,69 @@ export function ExpenseTracker({
           </TabsContent>
           
           <TabsContent value="weekly" className="space-y-4">
-            <div className="flex items-center gap-4">
-              <div className="h-28 w-28 flex-shrink-0 flex items-center justify-center">
-                <div className="text-center">
-                  <DollarSign className="h-8 w-8 text-accent mx-auto mb-1" />
-                  <span className="text-2xl font-bold font-mono">${weeklyTotal.toFixed(2)}</span>
-                </div>
-              </div>
-              <div className="flex-1 space-y-2">
-                <p className="text-sm font-medium">This Week</p>
-                {budget?.weeklyBudget ? (
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-muted-foreground">of ${budget.weeklyBudget}</span>
-                      <Badge 
-                        variant={weeklyRemaining >= 0 ? "secondary" : "destructive"}
-                        className="text-xs"
-                      >
-                        {weeklyRemaining >= 0 ? (
-                          <><TrendingDown className="w-3 h-3 mr-1" /> ${weeklyRemaining.toFixed(0)} left</>
-                        ) : (
-                          <><TrendingUp className="w-3 h-3 mr-1" /> ${Math.abs(weeklyRemaining).toFixed(0)} over</>
-                        )}
-                      </Badge>
+             <div className="flex items-center gap-4">
+                <div className="h-28 w-28 flex-shrink-0 flex items-center justify-center">
+                    <div className="text-center">
+                        <span className="text-3xl font-bold font-mono">₹{weeklyTotal.toFixed(2)}</span>
                     </div>
-                    <Progress 
-                      value={Math.min(weeklyProgress, 100)} 
-                      className={`h-2 ${getProgressColor(weeklyProgress)}`}
-                    />
-                  </div>
-                ) : (
-                  <p className="text-xs text-muted-foreground">Set a weekly budget to track progress</p>
-                )}
-              </div>
-            </div>
+                </div>
+                <div className="flex-1 space-y-2">
+                    <p className="text-sm font-medium">This Week's Spending</p>
+                    {budget?.weeklyBudget ? (
+                    <div className="space-y-1">
+                        <div className="flex items-center justify-between text-xs">
+                        <span className="text-muted-foreground">of ₹{budget.weeklyBudget}</span>
+                        <Badge 
+                            variant={weeklyRemaining >= 0 ? "secondary" : "destructive"}
+                            className="text-xs"
+                        >
+                            {weeklyRemaining >= 0 ? (
+                            <><TrendingDown className="w-3 h-3 mr-1" /> ₹{weeklyRemaining.toFixed(0)} left</>
+                            ) : (
+                            <><TrendingUp className="w-3 h-3 mr-1" /> ₹{Math.abs(weeklyRemaining).toFixed(0)} over</>
+                            )}
+                        </Badge>
+                        </div>
+                        <Progress 
+                        value={Math.min(weeklyProgress, 100)} 
+                        className={`h-2 ${getProgressColor(weeklyProgress)}`}
+                        />
+                    </div>
+                    ) : (
+                    <p className="text-xs text-muted-foreground">Set a weekly budget to track progress</p>
+                    )}
+                </div>
+             </div>
+          </TabsContent>
+
+          <TabsContent value="savings" className="space-y-4">
+            <div className="flex items-center gap-4">
+                <div className="h-28 w-28 flex-shrink-0 flex items-center justify-center">
+                    <div className="text-center">
+                        <PiggyBank className="h-10 w-10 text-accent mx-auto mb-2" />
+                        <span className="text-2xl font-bold font-mono">₹{savedThisMonth.toFixed(0)}</span>
+                    </div>
+                </div>
+                <div className="flex-1 space-y-2">
+                    <p className="text-sm font-medium">Saved This Month</p>
+                    {budget?.monthlySavingsGoal ? (
+                    <div className="space-y-1">
+                        <div className="flex items-center justify-between text-xs">
+                        <span className="text-muted-foreground">Goal: ₹{budget.monthlySavingsGoal}</span>
+                        <Badge 
+                            variant={savingsProgress >= 100 ? "success" : "secondary"}
+                            className="text-xs"
+                        >
+                            {savingsProgress.toFixed(0)}%
+                        </Badge>
+                        </div>
+                        <Progress value={Math.min(savingsProgress, 100)} className="h-2 bg-green-400" />
+                    </div>
+                    ) : (
+                    <p className="text-xs text-muted-foreground">Set a savings goal to track progress</p>
+                    )}
+                </div>
+             </div>
           </TabsContent>
         </Tabs>
 
@@ -340,7 +370,7 @@ export function ExpenseTracker({
             >
               <span>{CATEGORY_ICONS[cat.category]}</span>
               <span className="text-muted-foreground">{cat.name}</span>
-              <span className="font-mono font-medium">${cat.value.toFixed(0)}</span>
+              <span className="font-mono font-medium">₹{cat.value.toFixed(0)}</span>
             </div>
           ))}
         </div>
@@ -359,7 +389,7 @@ export function ExpenseTracker({
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-mono font-medium">${expense.amount.toFixed(2)}</span>
+                <span className="text-sm font-mono font-medium">₹{expense.amount.toFixed(2)}</span>
                 <Button
                   size="sm"
                   variant="ghost"

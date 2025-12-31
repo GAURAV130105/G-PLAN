@@ -10,11 +10,8 @@ import { useStudySessions } from '@/hooks/useStudySessions';
 import { useStudyGoals } from '@/hooks/useStudyGoals';
 import { useMoodEntries } from '@/hooks/useMoodEntries';
 import { useBudgets, useExpenseStats } from '@/hooks/useBudgets';
-<<<<<<< HEAD
 import { useNotifications } from '@/hooks/useNotifications';
 import { useGoals } from '@/hooks/useGoals';
-=======
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 import { StatsCards } from '@/components/dashboard/StatsCards';
 import { AssignmentTable } from '@/components/dashboard/AssignmentTable';
 import { HabitTracker } from '@/components/dashboard/HabitTracker';
@@ -26,12 +23,11 @@ import { AssignmentPieChart } from '@/components/dashboard/AssignmentPieChart';
 import { MoodTracker } from '@/components/dashboard/MoodTracker';
 import { MoodAnalytics } from '@/components/dashboard/MoodAnalytics';
 import { CalendarHistoryView } from '@/components/dashboard/CalendarHistoryView';
-<<<<<<< HEAD
 import { GoalsTracker } from '@/components/dashboard/GoalsTracker';
-=======
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
+import { Diary } from '@/components/dashboard/Diary';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { Chatbot } from '@/components/dashboard/Chatbot';
 
 const Index = () => {
   const { user, loading: authLoading, signOut } = useAuth();
@@ -43,7 +39,6 @@ const Index = () => {
   const { habits, addHabit, setHabitStatus, deleteHabit, getWeeklyStats, getTodayProgress, loading: habitsLoading } = useHabits();
   const { expenses, addExpense, deleteExpense, getTotalByCategory, getMonthlyTotal, loading: expensesLoading } = useExpenses();
   const { sessions, addSession, deleteSession, getTodayTotal, getWeeklyStats: getStudyWeeklyStats, getSubjectBreakdown, loading: sessionsLoading } = useStudySessions();
-<<<<<<< HEAD
   const { goals: studyGoals, updateGoals, updateStreak, loading: goalsLoading } = useStudyGoals();
   const { setMood, getMoodForDate, getNotesForDate, getWeeklyAverage, getMonthlyAverage, getLast30DaysStats, loading: moodLoading } = useMoodEntries();
   const { budget, updateBudget, loading: budgetLoading } = useBudgets();
@@ -59,12 +54,6 @@ const Index = () => {
     habits,
     true
   );
-=======
-  const { goals, updateGoals, updateStreak, loading: goalsLoading } = useStudyGoals();
-  const { setMood, getMoodForDate, getNotesForDate, getWeeklyAverage, getMonthlyAverage, getLast30DaysStats, loading: moodLoading } = useMoodEntries();
-  const { budget, updateBudget, loading: budgetLoading } = useBudgets();
-  const { getWeeklyTotal } = useExpenseStats(expenses);
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -103,11 +92,7 @@ const Index = () => {
     return null;
   }
 
-<<<<<<< HEAD
   const isLoading = assignmentsLoading || habitsLoading || expensesLoading || sessionsLoading || goalsLoading || moodLoading || budgetLoading || customGoalsLoading;
-=======
-  const isLoading = assignmentsLoading || habitsLoading || expensesLoading || sessionsLoading || goalsLoading || moodLoading || budgetLoading;
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
   const assignmentStats = getStats();
   const habitProgress = getTodayProgress();
   const weeklyStats = getWeeklyStats();
@@ -224,11 +209,7 @@ const Index = () => {
                 todayTotal={getTodayTotal()}
                 weeklyStats={getStudyWeeklyStats()}
                 subjectBreakdown={getSubjectBreakdown()}
-<<<<<<< HEAD
                 goals={studyGoals}
-=======
-                goals={goals}
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
                 onUpdateGoals={updateGoals}
                 onUpdateStreak={updateStreak}
               />
@@ -255,7 +236,6 @@ const Index = () => {
               monthlyAverage={getMonthlyAverage()}
               last30DaysStats={getLast30DaysStats()}
             />
-<<<<<<< HEAD
 
             {/* Goals Tracker */}
             <GoalsTracker
@@ -264,11 +244,13 @@ const Index = () => {
               onUpdateGoal={updateGoal}
               onDeleteGoal={deleteGoal}
             />
-=======
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
+
+            {/* Diary */}
+            <Diary />
           </>
         )}
       </main>
+      <Chatbot />
     </div>
   );
 };

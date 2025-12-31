@@ -1,17 +1,9 @@
-<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
-=======
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-<<<<<<< HEAD
-=======
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
-
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 @layer base {
   :root {
     --background: 40 20% 98%;
@@ -152,13 +144,12 @@
   }
 
   .animate-slide-up {
-    animation: slideUp 0.5s ease-out forwards;
+    animation: slideUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
   .animate-scale-in {
     animation: scaleIn 0.3s ease-out forwards;
   }
-<<<<<<< HEAD
 
   .animate-slide-in-right {
     animation: slideInRight 0.5s ease-out forwards;
@@ -204,8 +195,6 @@
     background-size: 1000px 100%;
     animation: shimmer 2s infinite;
   }
-=======
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 }
 
 @layer components {
@@ -240,7 +229,6 @@
   .metric-display {
     @apply font-mono text-2xl font-bold tracking-tight;
   }
-<<<<<<< HEAD
 
   .animated-progress {
     @apply transition-all duration-500 ease-out;
@@ -266,8 +254,6 @@
   .card-entrance:nth-child(4) {
     animation-delay: 0.4s;
   }
-=======
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
 }
 
 @keyframes fadeIn {
@@ -282,7 +268,7 @@
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -300,7 +286,6 @@
     transform: scale(1);
   }
 }
-<<<<<<< HEAD
 
 @keyframes slideInRight {
   from {
@@ -362,5 +347,3 @@
     background-position: 0% 50%;
   }
 }
-=======
->>>>>>> 8544b10b557da09312c447cd91d7dfdadad3590e
