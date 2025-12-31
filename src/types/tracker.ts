@@ -35,7 +35,7 @@ export interface Expense {
   date: string;
 }
 
-export type ExpenseCategory = 'food' | 'transport' | 'entertainment' | 'education' | 'utilities' | 'other';
+export type ExpenseCategory = 'food' | 'transport' | 'entertainment' | 'education' | 'utilities' | 'other' | 'savings';
 
 export interface StudySession {
   id: string;

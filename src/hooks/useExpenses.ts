@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Expense, ExpenseCategory } from '@/types/tracker';
 import { useAuth } from './useAuth';
 import { useToast } from './use-toast';
+import { startOfWeek, endOfWeek } from 'date-fns';
 
 export function useExpenses() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -110,10 +111,13 @@ export function useExpenses() {
       education: 0,
       utilities: 0,
       other: 0,
+      savings: 0,
     };
 
     expenses.forEach((e) => {
-      totals[e.category] += e.amount;
+      if (e.category in totals) {
+        totals[e.category] += e.amount;
+      }
     });
 
     return Object.entries(totals)
@@ -134,12 +138,30 @@ export function useExpenses() {
       .filter((e) => {
         const expenseDate = new Date(e.date);
         return (
+          e.category !== 'savings' &&
           expenseDate.getMonth() === currentMonth &&
           expenseDate.getFullYear() === currentYear
         );
       })
       .reduce((acc, e) => acc + e.amount, 0);
   };
+
+  const getWeeklyTotal = () => {
+    const now = new Date();
+    const weekStart = startOfWeek(now, { weekStartsOn: 1 });
+    const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
+
+    return expenses
+      .filter((e) => {
+        const expenseDate = new Date(e.date);
+        return (
+          e.category !== 'savings' &&
+          expenseDate >= weekStart &&
+          expenseDate <= weekEnd
+        );
+      })
+      .reduce((acc, e) => acc + e.amount, 0);
+  }
 
   return {
     expenses,
@@ -148,5 +170,6 @@ export function useExpenses() {
     deleteExpense,
     getTotalByCategory,
     getMonthlyTotal,
+    getWeeklyTotal,
   };
 }

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LayoutGrid, LogOut, Sparkles, Moon, Sun, User } from 'lucide-react';
+import { LayoutGrid, LogOut, Sparkles, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useAuth } from '@/hooks/useAuth';
 import { useAssignments } from '@/hooks/useAssignments';
@@ -9,7 +9,7 @@ import { useExpenses } from '@/hooks/useExpenses';
 import { useStudySessions } from '@/hooks/useStudySessions';
 import { useStudyGoals } from '@/hooks/useStudyGoals';
 import { useMoodEntries } from '@/hooks/useMoodEntries';
-import { useBudgets, useExpenseStats } from '@/hooks/useBudgets';
+import { useBudgets } from '@/hooks/useBudgets';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useGoals } from '@/hooks/useGoals';
 import { StatsCards } from '@/components/dashboard/StatsCards';
@@ -26,6 +26,7 @@ import { CalendarHistoryView } from '@/components/dashboard/CalendarHistoryView'
 import { GoalsTracker } from '@/components/dashboard/GoalsTracker';
 import { Diary } from '@/components/dashboard/Diary';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from '@/hooks/use-toast';
 import { Chatbot } from '@/components/dashboard/Chatbot';
 
@@ -37,15 +38,13 @@ const Index = () => {
 
   const { assignments, addAssignment, updateAssignment, deleteAssignment, getStats, loading: assignmentsLoading } = useAssignments();
   const { habits, addHabit, setHabitStatus, deleteHabit, getWeeklyStats, getTodayProgress, loading: habitsLoading } = useHabits();
-  const { expenses, addExpense, deleteExpense, getTotalByCategory, getMonthlyTotal, loading: expensesLoading } = useExpenses();
+  const { expenses, addExpense, deleteExpense, getTotalByCategory, getMonthlyTotal, getWeeklyTotal, loading: expensesLoading } = useExpenses();
   const { sessions, addSession, deleteSession, getTodayTotal, getWeeklyStats: getStudyWeeklyStats, getSubjectBreakdown, loading: sessionsLoading } = useStudySessions();
   const { goals: studyGoals, updateGoals, updateStreak, loading: goalsLoading } = useStudyGoals();
   const { setMood, getMoodForDate, getNotesForDate, getWeeklyAverage, getMonthlyAverage, getLast30DaysStats, loading: moodLoading } = useMoodEntries();
   const { budget, updateBudget, loading: budgetLoading } = useBudgets();
-  const { getWeeklyTotal } = useExpenseStats(expenses);
   const { goals, addGoal, updateGoal, deleteGoal, loading: customGoalsLoading } = useGoals();
 
-  // Enable notifications
   useNotifications(
     getMonthlyTotal(),
     budget?.monthlyBudget || null,
@@ -64,17 +63,13 @@ const Index = () => {
   const handleSignOut = async () => {
     const { error } = await signOut();
     if (error) {
-      toast({
-        title: "Error signing out",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Error signing out", description: error.message, variant: "destructive" });
     } else {
       navigate('/auth');
     }
   };
 
-  if (authLoading) {
+  if (authLoading || !user) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
@@ -88,37 +83,31 @@ const Index = () => {
     );
   }
 
-  if (!user) {
-    return null;
-  }
-
   const isLoading = assignmentsLoading || habitsLoading || expensesLoading || sessionsLoading || goalsLoading || moodLoading || budgetLoading || customGoalsLoading;
   const assignmentStats = getStats();
   const habitProgress = getTodayProgress();
   const weeklyStats = getWeeklyStats();
+  
+  const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
+  const userInitials = (user.user_metadata?.full_name || user.email || 'U').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
-      {/* Header */}
       <header className="border-b border-border/40 bg-card/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="relative">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/20">
                   <LayoutGrid className="w-5 h-5 text-primary-foreground" />
                 </div>
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-pulse" />
-              </div>
               <div>
                 <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">G-PLAN</h1>
-                <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Work Tracker Dashboard</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50">
                 <Sparkles className="w-3 h-3 text-primary" />
-                <span className="text-xs text-muted-foreground">{user.email}</span>
+                <span className="text-xs text-muted-foreground font-medium">{userName}</span>
               </div>
               <Button
                 variant="outline"
@@ -130,13 +119,16 @@ const Index = () => {
                 {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </Button>
               <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
                 onClick={() => navigate('/profile')}
-                className="rounded-xl border-border/50 hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all"
+                className="rounded-full"
                 title="Profile settings"
               >
-                <User className="h-4 w-4" />
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={user.user_metadata?.avatar_url} alt={userName} />
+                  <AvatarFallback>{userInitials}</AvatarFallback>
+                </Avatar>
               </Button>
               <AddAssignmentDialog onAddAssignment={addAssignment} />
               <Button 
@@ -153,7 +145,6 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
@@ -167,30 +158,21 @@ const Index = () => {
           </div>
         ) : (
           <>
-            {/* Stats Overview */}
             <StatsCards assignmentStats={assignmentStats} habitProgress={habitProgress} />
-
-            {/* Assignment Tracker */}
             <AssignmentTable
               assignments={assignments}
               onUpdateAssignment={updateAssignment}
               onDeleteAssignment={deleteAssignment}
             />
-
-            {/* Charts Row: Assignment Pie + Progress Bar */}
             <div className="grid lg:grid-cols-2 gap-6">
               <AssignmentPieChart stats={assignmentStats} />
               <ProgressChart weeklyStats={weeklyStats} />
             </div>
-
-            {/* Calendar History View */}
             <CalendarHistoryView 
               expenses={expenses}
               habits={habits}
               getMoodForDate={getMoodForDate}
             />
-
-            {/* Trackers Row: Expense + Study */}
             <div className="grid lg:grid-cols-2 gap-6">
               <ExpenseTracker
                 expenses={expenses}
@@ -214,8 +196,6 @@ const Index = () => {
                 onUpdateStreak={updateStreak}
               />
             </div>
-
-            {/* Mood Tracker + Habit Tracker */}
             <div className="grid lg:grid-cols-2 gap-6">
               <MoodTracker
                 getMoodForDate={getMoodForDate}
@@ -229,23 +209,17 @@ const Index = () => {
                 onDeleteHabit={deleteHabit}
               />
             </div>
-
-            {/* Mood Analytics */}
             <MoodAnalytics
               weeklyAverage={getWeeklyAverage()}
               monthlyAverage={getMonthlyAverage()}
               last30DaysStats={getLast30DaysStats()}
             />
-
-            {/* Goals Tracker */}
             <GoalsTracker
               goals={goals}
               onAddGoal={addGoal}
               onUpdateGoal={updateGoal}
               onDeleteGoal={deleteGoal}
             />
-
-            {/* Diary */}
             <Diary />
           </>
         )}

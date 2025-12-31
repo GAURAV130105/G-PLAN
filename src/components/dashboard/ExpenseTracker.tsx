@@ -36,6 +36,7 @@ const CATEGORY_COLORS: Record<ExpenseCategory, string> = {
   entertainment: 'hsl(var(--chart-3))',
   education: 'hsl(var(--chart-4))',
   utilities: 'hsl(var(--chart-5))',
+  savings: 'hsl(var(--chart-6))',
   other: 'hsl(var(--muted-foreground))',
 };
 
@@ -45,6 +46,7 @@ const CATEGORY_ICONS: Record<ExpenseCategory, string> = {
   entertainment: '🎮',
   education: '📚',
   utilities: '💡',
+  savings: '💰',
   other: '📦',
 };
 
@@ -70,10 +72,22 @@ export function ExpenseTracker({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!description.trim() || !amount) return;
+
+    if (!amount) return;
+
+    const isSaving = category === 'savings';
+    let desc = description.trim();
+
+    if (!isSaving && !desc) {
+      return;
+    }
     
+    if (isSaving && !desc) {
+        desc = 'Savings';
+    }
+
     onAddExpense({
-      description: description.trim(),
+      description: desc,
       amount: parseFloat(amount),
       category,
       date: new Date().toISOString().split('T')[0],
@@ -100,7 +114,7 @@ export function ExpenseTracker({
   const monthlyRemaining = budget?.monthlyBudget ? budget.monthlyBudget - monthlyTotal : 0;
   const weeklyRemaining = budget?.weeklyBudget ? budget.weeklyBudget - weeklyTotal : 0;
 
-  const savedThisMonth = budget?.monthlyBudget ? Math.max(0, budget.monthlyBudget - monthlyTotal) : 0;
+  const savedThisMonth = expenses.filter(e => e.category === 'savings').reduce((acc, e) => acc + e.amount, 0);
   const savingsProgress = budget?.monthlySavingsGoal ? (savedThisMonth / budget.monthlySavingsGoal) * 100 : 0;
 
   const getProgressColor = (progress: number) => {
@@ -214,7 +228,7 @@ export function ExpenseTracker({
               </Select>
             </div>
             <Button type="submit" size="sm" className="w-full">
-              Add Expense
+              Add Entry
             </Button>
           </form>
         )}
@@ -233,7 +247,7 @@ export function ExpenseTracker({
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
-                        data={categoryData}
+                        data={categoryData.filter(c => c.category !== 'savings')}
                         cx="50%"
                         cy="50%"
                         innerRadius={28}
@@ -363,7 +377,7 @@ export function ExpenseTracker({
         </Tabs>
 
         <div className="flex flex-wrap gap-2 pt-2 border-t border-border/30">
-          {categoryData.slice(0, 4).map((cat) => (
+          {categoryData.filter(c => c.category !== 'savings').slice(0, 4).map((cat) => (
             <div
               key={cat.category}
               className="flex items-center gap-1.5 text-xs px-2 py-1 rounded-full bg-muted/50"

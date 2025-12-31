@@ -8,16 +8,15 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      (_event, session) => {
         setSession(session);
-        setUser(session?.user ?? null);
+        // Create a new object to force a re-render in components when user data changes.
+        setUser(session?.user ? { ...session.user } : null);
         setLoading(false);
       }
     );
 
-    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -60,6 +59,10 @@ export function useAuth() {
     return { error };
   };
 
+  const refreshUser = async () => {
+    await supabase.auth.refreshSession();
+  };
+
   return {
     user,
     session,
@@ -68,5 +71,6 @@ export function useAuth() {
     signIn,
     signOut,
     sendPasswordReset,
+    refreshUser,
   };
 }

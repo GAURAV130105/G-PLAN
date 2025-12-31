@@ -26,7 +26,7 @@ interface AssignmentTableProps {
 }
 
 const priorityConfig: Record<Priority, { bg: string; text: string; border: string; icon: string }> = {
-  high: { bg: 'bg-destructive/10', text: 'text-destructive', border: 'border-destructive/30', icon: '🔴' },
+  high: { bg: 'bg-sky-500/10', text: 'text-sky-600', border: 'border-sky-500/30', icon: '🔵' },
   medium: { bg: 'bg-warning/10', text: 'text-warning-foreground', border: 'border-warning/30', icon: '🟡' },
   low: { bg: 'bg-success/10', text: 'text-success', border: 'border-success/30', icon: '🟢' },
 };

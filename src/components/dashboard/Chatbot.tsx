@@ -12,6 +12,15 @@ const suggestedQuestions = [
   "Tell me about the study tracker.",
 ];
 
+const predefinedQA: { [key: string]: string } = {
+  "how do i use the diary?": "To use the diary, simply click on the 'New Entry' button. You can write your thoughts, add a photo or a video, and then save it. Your entries are private and securely stored.",
+  "how do i add a new goal?": "You can add a new goal in the 'Goals Tracker' section. Look for an 'Add Goal' button, give your goal a title, set a target, and start tracking your progress!",
+  "how can i track my expenses?": "The 'Expense Tracker' is designed for that. You can add new expenses, categorize them, and see a breakdown of your spending habits over time.",
+  "tell me about the study tracker.": "The 'Study Tracker' helps you manage your study sessions. You can create study goals, log your study hours for different subjects, and visualize your progress to stay motivated.",
+};
+
+const defaultAnswer = "Sorry, I can only answer predefined questions. Please try one of the suggestions, or rephrase your question.";
+
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ type: 'user' | 'bot'; text: string }[]>([
@@ -21,38 +30,28 @@ export function Chatbot() {
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  const handleSendMessage = async () => {
-    if (userInput.trim() === '' || isLoading) return;
+  const handleSendMessage = async (messageText?: string) => {
+    const text = messageText || userInput;
+    if (text.trim() === '' || isLoading) return;
 
-    const userMessage = { type: 'user', text: userInput };
+    const userMessage = { type: 'user', text };
     setMessages(prev => [...prev, userMessage]);
     setIsLoading(true);
-    setUserInput('');
-
-    try {
-      const response = await fetch('http://localhost:5000/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: userInput }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to get a response from the bot.');
-      }
-
-      const data = await response.json();
-      const botMessage = { type: 'bot', text: data.reply };
-      setMessages(prev => [...prev, botMessage]);
-
-    } catch (error) {
-      console.error("Error sending message:", error);
-      const errorMessage = { type: 'bot', text: "Sorry, I'm having trouble connecting. Please try again later." };
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
+    if (!messageText) {
+      setUserInput('');
     }
+    
+    // Simulate bot thinking
+    setTimeout(() => {
+        const botResponse = predefinedQA[text.toLowerCase().trim()] || defaultAnswer;
+        const botMessage = { type: 'bot', text: botResponse };
+        setMessages(prev => [...prev, botMessage]);
+        setIsLoading(false);
+    }, 500);
+  };
+
+  const handleSuggestedQuestionClick = (question: string) => {
+    handleSendMessage(question);
   };
 
   useEffect(() => {
@@ -73,7 +72,7 @@ export function Chatbot() {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-4 rounded-full w-16 h-16 shadow-lg"
+        className="fixed bottom-4 right-4 rounded-full w-16 h-16 shadow-lg z-50"
         style={{ backgroundColor: '#38bdf8' }}
       >
         <MessageSquare className="h-6 w-6 text-white" />
@@ -82,7 +81,7 @@ export function Chatbot() {
   }
 
   return (
-    <Card className="fixed bottom-4 right-4 w-80 h-[450px] flex flex-col shadow-2xl rounded-2xl border-2 border-sky-200/50 animate-slide-up">
+    <Card className="fixed bottom-4 right-4 w-80 h-[450px] flex flex-col shadow-2xl rounded-2xl border-2 border-sky-200/50 animate-slide-up z-50">
       <CardHeader className="flex flex-row items-center justify-between p-4" style={{ backgroundColor: '#38bdf8' }}>
         <CardTitle className="text-white text-lg font-bold">G-bot</CardTitle>
         <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="text-white hover:bg-sky-600/50">
@@ -112,6 +111,24 @@ export function Chatbot() {
         </CardContent>
     </ScrollArea>
     <div className="p-4 border-t bg-gray-50/50 rounded-b-2xl">
+        <div className="text-center mb-2">
+          <p className="text-xs text-muted-foreground">
+            Need help? Try asking:
+          </p>
+          <div className="flex flex-wrap justify-center gap-2 mt-2">
+            {suggestedQuestions.map((question, index) => (
+              <Button
+                key={index}
+                variant="outline"
+                size="sm"
+                className="text-sky-500 hover:bg-sky-100 focus:outline-none text-xs h-auto py-1 px-2"
+                onClick={() => handleSuggestedQuestionClick(question)}
+              >
+                {question}
+              </Button>
+            ))}
+          </div>
+        </div>
         <div className="relative">
             <Input 
                 placeholder="Ask a question..."
@@ -124,29 +141,11 @@ export function Chatbot() {
             <Button 
                 size="icon" 
                 className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-sky-500 hover:bg-sky-600"
-                onClick={handleSendMessage}
+                onClick={() => handleSendMessage()}
                 disabled={isLoading}
             >
                 <Send className="h-4 w-4 text-white" />
             </Button>
-        </div>
-        <div className="text-center mt-2">
-          <p className="text-xs text-muted-foreground">
-            Need help? Try asking:
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mt-2">
-            {suggestedQuestions.map((question, index) => (
-              <Button
-                key={index}
-                variant="outline"
-                size="sm"
-                className="text-sky-500 hover:underline focus:outline-none"
-                onClick={() => setUserInput(question)}
-              >
-                {question}
-              </Button>
-            ))}
-          </div>
         </div>
       </div>
     </Card>

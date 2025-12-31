@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { useToast } from './use-toast';
-import { format, startOfWeek, endOfWeek } from 'date-fns';
+import { format } from 'date-fns';
 
 interface Budget {
   id: string;
   monthlyBudget: number;
   weeklyBudget: number;
+  monthlySavingsGoal: number;
   monthYear: string;
 }
 
@@ -45,6 +46,7 @@ export function useBudgets() {
           id: data.id,
           monthlyBudget: Number(data.monthly_budget),
           weeklyBudget: Number(data.weekly_budget),
+          monthlySavingsGoal: Number(data.monthly_savings_goal),
           monthYear: data.month_year,
         });
       }
@@ -54,7 +56,7 @@ export function useBudgets() {
     fetchBudget();
   }, [user, toast, currentMonthYear]);
 
-  const updateBudget = async (monthlyBudget: number, weeklyBudget: number) => {
+  const updateBudget = async (monthlyBudget: number, weeklyBudget: number, monthlySavingsGoal: number) => {
     if (!user) return;
 
     const { data: existing } = await supabase
@@ -70,6 +72,7 @@ export function useBudgets() {
         .update({
           monthly_budget: monthlyBudget,
           weekly_budget: weeklyBudget,
+          monthly_savings_goal: monthlySavingsGoal,
         })
         .eq('user_id', user.id)
         .eq('month_year', currentMonthYear);
@@ -85,6 +88,7 @@ export function useBudgets() {
           id: prev?.id || '',
           monthlyBudget,
           weeklyBudget,
+          monthlySavingsGoal,
           monthYear: currentMonthYear,
         }));
         toast({ title: "Budget updated!" });
@@ -96,6 +100,7 @@ export function useBudgets() {
           user_id: user.id,
           monthly_budget: monthlyBudget,
           weekly_budget: weeklyBudget,
+          monthly_savings_goal: monthlySavingsGoal,
           month_year: currentMonthYear,
         })
         .select()
@@ -112,6 +117,7 @@ export function useBudgets() {
           id: data.id,
           monthlyBudget: Number(data.monthly_budget),
           weeklyBudget: Number(data.weekly_budget),
+          monthlySavingsGoal: Number(data.monthly_savings_goal),
           monthYear: data.month_year,
         });
         toast({ title: "Budget saved!" });
@@ -125,37 +131,4 @@ export function useBudgets() {
     updateBudget,
     currentMonthYear,
   };
-}
-
-export function useExpenseStats(expenses: { date: string; amount: number }[]) {
-  const getWeeklyTotal = () => {
-    const now = new Date();
-    const weekStart = startOfWeek(now, { weekStartsOn: 1 });
-    const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
-
-    return expenses
-      .filter((e) => {
-        const expenseDate = new Date(e.date);
-        return expenseDate >= weekStart && expenseDate <= weekEnd;
-      })
-      .reduce((acc, e) => acc + e.amount, 0);
-  };
-
-  const getMonthlyTotal = () => {
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
-
-    return expenses
-      .filter((e) => {
-        const expenseDate = new Date(e.date);
-        return (
-          expenseDate.getMonth() === currentMonth &&
-          expenseDate.getFullYear() === currentYear
-        );
-      })
-      .reduce((acc, e) => acc + e.amount, 0);
-  };
-
-  return { getWeeklyTotal, getMonthlyTotal };
 }
